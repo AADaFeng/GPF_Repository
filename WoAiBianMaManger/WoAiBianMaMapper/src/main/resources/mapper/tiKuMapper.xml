@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zbf.mapper.TiKuMapper">
+    <!--添加题库信息-->
+    <insert id="addTiKuInfo" parameterType="map">
+         insert into lcg_tiku(id,tikuname,tikushuoming,tikuzhuangtai,createtime)
+         values (#{id},#{tikuname},#{tikushuoming},#{tikuzhuangtai},NOW())
+    </insert>
+    <!--获取题库信息-->
+    <select id="getTikuList" parameterType="page" resultType="map">
+        select ltk.* from lcg_tiku ltk
+        <where>
+            <if test="params.tikuname!=null and params.tikuname!=''">
+                and ltk.tikuname like CONCAT('%',#{params.tikuname},'%')
+            </if>
+            <if test="params.tikuzhuangtai!=null and params.tikuzhuangtai!=''">
+                and ltk.tikuzhuangtai=#{params.tikuzhuangtai}
+            </if>
+        </where>
+        order  by ltk.createtime desc
+    </select>
+    <!--修改题库信息-->
+    <update id="updateTiKuInfo" parameterType="map">
+        update lcg_tiku
+        <set>
+            <if test="tikuname!=null and tikuname!=''">tikuname=#{tikuname},</if>
+            <if test="tikuzhuangtai!=null and tikuzhuangtai!=''">tikuzhuangtai=#{tikuzhuangtai},</if>
+            <if test="tikushuoming!=null and tikushuoming!=''">tikushuoming=#{tikushuoming},</if>
+        </set>
+        <where>
+            <if test="id!=null and id!=''">
+                and id=#{id}
+            </if>
+        </where>
+    </update>
+    <!--删除题库信息-->
+    <delete id="deleteTiKuInfo" parameterType="map">
+        delete from  lcg_tiku
+        <where>
+            <if test="id!=null and id!=''">
+                id=#{id}
+            </if>
+        </where>
+    </delete>
+     <!-- 手动添加试题-->
+    <insert id="toAddShiTi" parameterType="map">
+       insert into lcg_timu(id,createuserid,tixingid,tikuid,shitizhuangtai,nanduid,laiyuan,tigan,timujiexi,createtime,daan)
+            values (#{id},12,#{shitileixing},#{tikuid},#{shitizhuangtai},#{nanduid},#{laiyuan},#{tigan},#{timujiexi},NOW(),234)
+    </insert>
+    <!-- 试题列表-->
+    <!--select id,createuserid,tixingid,tikuid,shitizhuangtai,nanduid,laiyuan,tigan,daan,timujiexi,createtime from lcg_timu-->
+    <select id="getShiTiList" parameterType="page" resultType="map">
+     select ltm.id,ltk.tikuname,ltt.tixingname,ltn.nandu,ltm.shitizhuangtai,ltm.tigan,ltm.createuserid,ltm.daan,ltm.timujiexi
+          from lcg_timu ltm  LEFT JOIN lcg_timu_nandu ltn  on  ltm.nanduid=ltn.id
+          LEFT JOIN lcg_timu_tixing ltt  on  ltm.tixingid=ltt.id
+          LEFT JOIN lcg_tiku ltk  on  ltm.tikuid=ltk.id
+        <where>
+            <if test="params.shitileixing!=null and params.shitileixing!=''">
+                and ltm.tixingid like CONCAT('%',#{params.shitileixing},'%')
+            </if>
+            <if test="params.nanduid!=null and params.nanduid!=''">
+                and ltm.nanduid like CONCAT('%',#{params.nanduid},'%')
+            </if>
+            <if test="params.shitizhuangtai!=null and params.shitizhuangtai!=''">
+                and ltm.shitizhuangtai like CONCAT('%',#{params.shitizhuangtai},'%')
+            </if>
+
+        </where>
+    </select>
+    <!--删除题库信息-->
+    <delete id="deleteShiTiInfo" parameterType="map">
+        delete from  lcg_timu
+        <where>
+            <if test="id!=null and id!=''">  id=#{id}
+            </if>
+        </where>
+    </delete>
+
+    <!--按数题库导出数据  Excel-->
+    <select id="getShitiDataListByTiKu" parameterType="page" resultType="map">
+        select * from lcg_timu where tikuid=#{params.tikuid}
+    </select>
+
+    <select id="getShiTiById" parameterType="map" resultType="java.util.Map">
+        select * from lcg_timu where id=#{id}
+    </select>
+</mapper>

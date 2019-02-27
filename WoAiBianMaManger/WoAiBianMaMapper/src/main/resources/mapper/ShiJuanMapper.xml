@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zbf.mapper.ShiJuanMapper">
+    <!--添加试卷信息-->
+    <insert id="addShiJuanInfo" parameterType="map">
+         insert into lcg_shijuan
+         (id,shijuanname,fenleiid,zhuangtai,starttime,
+         endtime,opentime,shijian,havedaan,shijuanleixing,shitishunxu,shuoming,zongfen,renshu,userid)
+         values (#{id},#{shijuanname},2,#{zhuangtai},#{starttime},#{endtime},
+         #{opentime},#{shijian},#{havedaan},#{shijuanleixing},#{shitishunxu},#{shuoming},36,30,1)
+    </insert>
+    <!--试卷列表-->
+    <select id="ShiJuanList" parameterType="page" resultType="map">
+        SELECT lsj.*,ls.userName from lcg_shijuan lsj LEFT JOIN lcg_user ls ON lsj.userid=ls.id
+
+        <where>
+           <!-- <if test="params.shitileixing!=null and params.shitileixing!=''">
+                and ltm.tixingid like CONCAT('%',#{params.shitileixing},'%')
+            </if>-->
+
+        </where>
+    </select>
+
+    <select id="getUserInfo" parameterType="page" resultType="map">
+        SELECT * FROM lcg_user
+    </select>
+
+
+</mapper>

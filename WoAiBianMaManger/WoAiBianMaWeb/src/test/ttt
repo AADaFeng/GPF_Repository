@@ -1,0 +1,67 @@
+
+
+2、写出一个单例类代码
+// 饿汉式单例
+public class Singleton1 {
+
+    // 指向自己实例的私有静态引用，主动创建
+    private static Singleton1 singleton1 = new Singleton1();
+
+    // 私有的构造方法
+    private Singleton1(){}
+
+    // 以自己实例为返回值的静态的公有方法，静态工厂方法
+    public static Singleton1 getSingleton1(){
+        return singleton1;
+    }
+
+// 懒汉式单例
+public class Singleton2 {
+
+    // 指向自己实例的私有静态引用
+    private static Singleton2 singleton2;
+
+    // 私有的构造方法
+    private Singleton2(){}
+
+    // 以自己实例为返回值的静态的公有方法，静态工厂方法
+    public static Singleton2 getSingleton2(){
+        // 被动创建，在真正需要使用时才去创建
+        if (singleton2 == null) {
+            singleton2 = new Singleton2();
+        }
+        return singleton2;
+    }
+}
+
+
+
+
+
+
+
+
+3、实现一个金额小写转换大写的方法，如输入3268.98元，输出叁仟贰佰陆拾捌元玖角捌分
+
+
+
+
+
+
+
+
+
+
+
+4、编写一个程序将d:/java目录下所有.java文件复制到d:/jad目录下，并将原文件扩展名从.java改为.jad
+
+
+
+
+
+
+
+
+
+
+5、有13个外观完全一样的球，其中一个质量与其它12个不同，用天平分3次找出质量不同那个球，说出你的思路。
